@@ -42,6 +42,7 @@ const mailTransporter = nodemailer.createTransport({
     }
 });
 
+
 const PORT = process.env.PORT || 3000;
 
 const mongoURI =
@@ -60,8 +61,8 @@ if (!mongoURI) {
     process.exit(1);
 }
 
-if (!process.env.SESSION_SECRET) {
-    console.log("❌ SESSION_SECRET missing in .env");
+if (!process.env.SESSION_SECRET?.trim()) {
+    console.error("❌ SESSION_SECRET missing. Check Render Environment Variables.");
     process.exit(1);
 }
 
