@@ -8,7 +8,6 @@ const cookieParser = require("cookie-parser");
 const mongoSanitize = require("express-mongo-sanitize");
 // const csrf = require("csurf");
 const { fileTypeFromFile } = require("file-type");
-const PointsTable = require("./models/PointsTable");
 const rateLimit = require("express-rate-limit");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -148,7 +147,7 @@ app.get("/", async (req, res) => {
             teams,
             matches,
             notices,
-            pointsTable
+        
         ] = await Promise.all([
             Player.find({ status: "Approved" })
                 .sort({ createdAt: -1 })
@@ -158,17 +157,9 @@ app.get("/", async (req, res) => {
                 .sort({ createdAt: -1 })
                 .lean(),
 
-            Match.find()
-                .sort({ createdAt: -1 })
-                .lean(),
+           
 
-            TournamentNotice.find({ active: true })
-                .sort({ createdAt: -1 })
-                .lean(),
-
-            PointsTable.find()
-                .sort({ points: -1, nrr: -1 })
-                .lean()
+            
         ]);
 
         const tournamentStats = {
@@ -182,7 +173,6 @@ app.get("/", async (req, res) => {
             teams,
             matches,
             notices,
-            pointsTable,
             tournamentStats
         });
 
