@@ -45,12 +45,18 @@ const mailTransporter = nodemailer.createTransport({
 const PORT = process.env.PORT || 3000;
 
 const mongoURI =
-    process.env.MONGODB_URI ||
-    process.env.MONGO_URI ||
-    process.env.MONGO_URL;
+    process.env.MONGODB_URI?.trim() ||
+    process.env.MONGO_URI?.trim() ||
+    process.env.MONGO_URL?.trim();
+
+console.log("MongoDB Environment Check:", {
+    MONGODB_URI: Boolean(process.env.MONGODB_URI?.trim()),
+    MONGO_URI: Boolean(process.env.MONGO_URI?.trim()),
+    MONGO_URL: Boolean(process.env.MONGO_URL?.trim())
+});
 
 if (!mongoURI) {
-    console.log("❌ MongoDB URI missing in .env");
+    console.error("❌ MongoDB URI missing. Check Render Environment Variables.");
     process.exit(1);
 }
 
