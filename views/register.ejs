@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player Registration | PPGP CUP Season 5</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+ background:#061711;color:#f5f8ef;
+ font-family:Inter,sans-serif;padding:35px 15px;
+}
+.container{max-width:850px;margin:auto}
+.back{color:#baff43;text-decoration:none;font-size:12px;font-weight:800}
+.heading{text-align:center;margin:35px 0}
+.heading small{color:#baff43;letter-spacing:4px;font-weight:900}
+.heading h1{font:900 clamp(48px,9vw,75px)/1 "Barlow Condensed";margin:12px 0}
+.heading p{color:#a7b8aa;font-size:12px}
+.form-card{
+ background:linear-gradient(145deg,#123527,#091f16);
+ border:1px solid rgba(255,255,255,.12);
+ padding:35px;border-radius:17px;
+ box-shadow:0 25px 70px rgba(0,0,0,.3);
+}
+.section-title{
+ color:#baff43;font:800 25px "Barlow Condensed";
+ margin:25px 0 18px;
+ border-bottom:1px solid rgba(255,255,255,.12);
+ padding-bottom:10px;
+}
+.section-title:first-child{margin-top:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field{display:flex;flex-direction:column;gap:8px}
+.field.full{grid-column:1/-1}
+label{font-size:11px;font-weight:800;color:#d5e1d6}
+input,select,textarea{
+ width:100%;padding:14px;
+ border:1px solid rgba(255,255,255,.15);
+ border-radius:7px;background:#071b14;
+ color:white;font:12px Inter;outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:#baff43}
+input[type=file]{padding:11px}
+option{background:#071b14}
+.submit{
+ width:100%;margin-top:28px;padding:17px;
+ background:#baff43;color:#102016;border:0;
+ border-radius:7px;font-weight:900;
+ letter-spacing:1px;cursor:pointer;transition:.3s;
+}
+.submit:hover{transform:translateY(-3px);box-shadow:0 12px 30px #baff4330}
+.note{font-size:10px;color:#a7b8aa;line-height:1.7;margin-top:15px}
+@media(max-width:600px){
+ .form-card{padding:22px 16px}
+ .grid{grid-template-columns:1fr}
+ .field.full{grid-column:auto}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<a class="back" href="/">← BACK TO HOME</a>
+
+<div class="heading">
+<small>ODISHA TENNIS CRICKET</small>
+<h1>PLAYER <span style="color:#baff43">REGISTRATION</span></h1>
+<p>PPGP CUP · SEASON 5 · JOIN THE CHAMPIONSHIP</p>
+</div>
+
+<div class="form-card">
+<form action="/register" method="POST" enctype="multipart/form-data">
+
+<h2 class="section-title">01 — PERSONAL DETAILS</h2>
+<div class="grid">
+<div class="field">
+<label>PLAYER FULL NAME *</label>
+<input name="fullName" required maxlength="80" placeholder="Enter your full name">
+</div>
+<div class="field">
+<label>PHONE NUMBER *</label>
+<input name="phone" type="tel" required pattern="[0-9]{10}" maxlength="10" placeholder="10 digit mobile number">
+</div>
+<div class="field">
+<label>DATE OF BIRTH *</label>
+<input name="dateOfBirth" type="date" required>
+</div>
+<div class="field">
+<label>VILLAGE / CITY *</label>
+<input name="city" required maxlength="100" placeholder="Your village or city">
+</div>
+<div class="field">
+<label>DISTRICT *</label>
+<select name="district" required>
+<option value="">Select district</option>
+<option>Angul</option><option>Balangir</option><option>Balasore</option>
+<option>Bargarh</option><option>Bhadrak</option><option>Boudh</option>
+<option>Cuttack</option><option>Deogarh</option><option>Dhenkanal</option>
+<option>Gajapati</option><option>Ganjam</option><option>Jagatsinghpur</option>
+<option>Jajpur</option><option>Jharsuguda</option><option>Kalahandi</option>
+<option>Kandhamal</option><option>Kendrapara</option><option>Keonjhar</option>
+<option>Khordha</option><option>Koraput</option><option>Malkangiri</option>
+<option>Mayurbhanj</option><option>Nabarangpur</option><option>Nayagarh</option>
+<option>Nuapada</option><option>Puri</option><option>Rayagada</option>
+<option>Sambalpur</option><option>Subarnapur</option><option>Sundargarh</option>
+</select>
+</div>
+<div class="field">
+<label>JERSEY NUMBER</label>
+<input name="jerseyNumber" type="number" min="0" max="99" placeholder="e.g. 07">
+</div>
+</div>
+
+<h2 class="section-title">02 — CRICKET DETAILS</h2>
+<div class="grid">
+<div class="field">
+<label>PLAYER ROLE *</label>
+<select name="role" required>
+<option value="">Select role</option>
+<option>Batsman</option>
+<option>Bowler</option>
+<option>All-Rounder</option>
+<option>Wicket Keeper</option>
+</select>
+</div>
+<div class="field">
+<label>BATTING STYLE</label>
+<select name="battingStyle">
+<option value="">Select batting style</option>
+<option>Right Hand</option>
+<option>Left Hand</option>
+</select>
+</div>
+<div class="field">
+<label>BOWLING STYLE</label>
+<select name="bowlingStyle">
+<option value="">Select bowling style</option>
+<option>Right Arm Fast</option>
+<option>Left Arm Fast</option>
+<option>Right Arm Spin</option>
+<option>Left Arm Spin</option>
+<option>Not Applicable</option>
+</select>
+</div>
+<div class="field">
+<label>TEAM NAME</label>
+<input name="teamName" maxlength="80" placeholder="Team name (if known)">
+</div>
+<div class="field full">
+<label>PLAYER PHOTO</label>
+<input type="file" name="playerPhoto" accept="image/jpeg,image/png,image/webp">
+</div>
+</div>
+
+<h2 class="section-title">03 — CONFIRMATION</h2>
+<div class="field">
+<label>
+<input type="checkbox" name="declaration" value="yes" required style="width:auto;margin-right:8px">
+I confirm that the information provided is correct.
+</label>
+</div>
+
+<button class="submit" type="submit">SUBMIT PLAYER REGISTRATION ↗</button>
+<p class="note">Your registration will be stored securely. Registration approval and team allocation will be handled according to tournament rules.</p>
+</form>
+</div>
+</div>
+</body>
+</html>

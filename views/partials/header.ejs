@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#06110b">
+<title><%= typeof pageTitle !== "undefined" ? pageTitle : "PPGP CUP Season 05" %></title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06110b;--panel:#10251a;--panel2:#173b29;--lime:#c7ff45;--orange:#ff914d;--white:#f6fff7;--muted:#9aab9f;--border:rgba(255,255,255,.09)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:100px}
+body{background:var(--bg);color:var(--white);font-family:Inter,sans-serif;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+button,input,select,textarea{font:inherit}
+.container{width:90%;max-width:1250px;margin:auto}
+.topbar{background:var(--lime);color:#10200e;text-align:center;padding:9px;font-size:10px;font-weight:900;letter-spacing:2px}
+.header{height:78px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;background:#06110bf2;backdrop-filter:blur(18px);border-bottom:1px solid var(--border)}
+.brand{display:flex;align-items:center;gap:12px}
+.brand-icon{width:45px;height:45px;display:grid;place-items:center;background:var(--lime);color:#10200e;border-radius:12px;font-size:25px;box-shadow:0 0 25px #c7ff4530}
+.brand-name{font:900 27px "Barlow Condensed"}
+.brand-name span{color:var(--lime)}
+.brand-name small{display:block;font:800 9px Inter;letter-spacing:3px;color:var(--muted)}
+.nav{display:flex;align-items:center;gap:22px}
+.nav a{font-size:10px;font-weight:900;color:#d8e5dc;transition:.3s}
+.nav a:hover,.nav a.active{color:var(--lime)}
+.nav .register{background:var(--lime);color:#10200e;padding:13px 18px;border-radius:5px}
+.menu-btn{display:none;background:none;border:0;color:white;font-size:27px;cursor:pointer}
+.page-hero{position:relative;overflow:hidden;padding:85px 0 75px;background:radial-gradient(ellipse at 80% 40%,#c7ff4520,transparent 35%),linear-gradient(120deg,#0b2416,#06110b 70%);border-bottom:1px solid var(--border)}
+.page-hero:after{content:"PPGP";position:absolute;right:-15px;bottom:-55px;font:900 210px/.8 "Barlow Condensed";color:#ffffff08;pointer-events:none}
+.eyebrow{color:var(--lime);font-size:10px;font-weight:900;letter-spacing:4px}
+.page-hero h1{font:900 clamp(65px,10vw,115px)/.95 "Barlow Condensed";margin:17px 0}
+.page-hero h1 span{color:var(--lime)}
+.page-hero p{color:var(--muted);font-size:13px;line-height:1.9;max-width:600px}
+.section{padding:65px 0}
+.section-title{margin-bottom:30px}
+.section-title small{color:var(--lime);font-size:10px;font-weight:900;letter-spacing:3px}
+.section-title h2{font:900 clamp(38px,6vw,58px) "Barlow Condensed";margin-top:8px}
+.section-title h2 span{color:var(--lime)}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{background:linear-gradient(145deg,#173b29,#0a1d12);border:1px solid var(--border);border-radius:13px;overflow:hidden;transition:.3s;box-shadow:0 15px 35px #0003}
+.card:hover{transform:translateY(-7px);border-color:var(--lime);box-shadow:0 20px 45px #0006}
+.card-body{padding:20px}
+.card h3{font:800 25px "Barlow Condensed";margin-bottom:8px}
+.card p{color:var(--muted);font-size:12px;line-height:1.8}
+.photo{height:220px;background:linear-gradient(135deg,#244b32,#091b11);display:grid;place-items:center;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover}
+.photo span{font:900 75px "Barlow Condensed";color:var(--lime)}
+.tag{display:inline-block;background:#c7ff4518;color:var(--lime);padding:7px 10px;border-radius:4px;font-size:9px;font-weight:900;letter-spacing:1px;margin-bottom:12px}
+.btn{display:inline-flex;justify-content:center;align-items:center;padding:14px 20px;border:0;border-radius:5px;background:var(--lime);color:#10200e;font-size:10px;font-weight:900;cursor:pointer;transition:.3s}
+.btn:hover{transform:translateY(-4px);box-shadow:0 10px 25px #c7ff4530}
+.btn-outline{background:transparent;border:1px solid var(--lime);color:var(--lime)}
+.empty{grid-column:1/-1;padding:45px 20px;text-align:center;border:1px dashed #ffffff35;background:var(--panel);border-radius:12px;color:var(--muted);line-height:1.9}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px}
+table{width:100%;min-width:550px;border-collapse:collapse}
+th{background:var(--lime);color:#10200e;text-align:left;padding:16px;font-size:10px}
+td{padding:16px;border-bottom:1px solid var(--border);font-size:12px;color:#dce9df}
+tr:hover td{background:#c7ff450c}
+.form-control{width:100%;background:#0b1e13;border:1px solid #ffffff20;color:white;border-radius:7px;padding:14px;outline:none}
+.form-control:focus{border-color:var(--lime)}
+.form-control::placeholder{color:#819487}
+label{display:block;color:#dce9df;font-size:11px;font-weight:800;margin-bottom:8px}
+.form-group{margin-bottom:18px}
+.footer{background:#030b06;padding:45px 6% 20px;border-top:1px solid var(--border);margin-top:50px}
+.footer-inner{display:flex;justify-content:space-between;flex-wrap:wrap;gap:25px}
+.footer p{color:var(--muted);font-size:11px;margin-top:12px}
+.footer-links{display:flex;flex-wrap:wrap;gap:20px}
+.footer-links a{font-size:11px;color:var(--muted)}
+.copyright{text-align:center;border-top:1px solid var(--border);margin-top:30px;padding-top:18px;color:#819487;font-size:10px}
+@media(max-width:950px){.menu-btn{display:block}.nav{display:none;position:absolute;top:78px;left:12px;right:12px;background:#102a1e;border:1px solid var(--border);border-radius:12px;padding:25px;flex-direction:column;gap:22px}.nav.open{display:flex}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.grid{grid-template-columns:1fr}.page-hero{padding:65px 0}.page-hero:after{font-size:130px}.section{padding:45px 0}.photo{height:240px}}
+</style>
+</head>
+<body>
+<div class="topbar">🏏 KENDRAPARA · ODISHA · TENNIS CRICKET CHAMPIONSHIP</div>
+<header class="header">
+<a href="/" class="brand">
+<div class="brand-icon">🏏</div>
+<div class="brand-name">PPGP <span>CUP.</span><small>SEASON FIVE · 2026</small></div>
+</a>
+<button class="menu-btn" id="menuBtn" aria-label="Toggle menu">☰</button>
+<nav class="nav" id="mainNav">
+<a href="/">HOME</a>
+<a href="/teams">TEAMS</a>
+<a href="/players">PLAYERS</a>
+<a href="/register" class="register">REGISTER ↗</a>
+</nav>
+</header>
+<script>
+document.addEventListener("DOMContentLoaded",()=>{
+const b=document.getElementById("menuBtn");
+const n=document.getElementById("mainNav");
+if(b&&n)b.addEventListener("click",()=>n.classList.toggle("open"));
+});
+</script>

@@ -1,0 +1,22 @@
+
+<%- include("partials/header", {pageTitle:"Notices | PPGP CUP"}) %>
+<section class="page-hero"><div class="container">
+<div class="eyebrow">OFFICIAL TOURNAMENT INFORMATION</div>
+<h1>LATEST <span>UPDATES.</span></h1>
+<p>All important tournament announcements in one place.</p>
+</div></section>
+<section class="section"><div class="container">
+<div class="section-title"><small>OFFICIAL NEWS & ANNOUNCEMENTS</small><h2>TOURNAMENT <span>NOTICES.</span></h2></div>
+<div class="grid">
+<% (notices || []).forEach(notice=>{ %>
+<article class="card"><div class="card-body">
+<span class="tag"><%= notice.category || "ANNOUNCEMENT" %></span>
+<h3><%= notice.title || "Tournament Update" %></h3>
+<p><%= notice.message || notice.description || "" %></p>
+<p style="color:var(--orange);margin-top:18px"><%= notice.date || (notice.createdAt ? new Date(notice.createdAt).toLocaleDateString("en-IN") : "") %></p>
+</div></article>
+<% }) %>
+<% if(!notices || notices.length===0){ %><div class="empty">📢 No announcements published yet. Stay tuned!</div><% } %>
+</div>
+</div></section>
+<%- include("partials/footer") %>

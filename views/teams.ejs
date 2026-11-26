@@ -1,0 +1,312 @@
+
+<%- include("partials/header", {pageTitle:"Teams | PPGP CUP"}) %>
+
+<%
+const teamList = Array.isArray(teams) ? teams : [];
+%>
+
+<style>
+.team-hero{
+    position:relative;
+    padding:75px 0;
+    overflow:hidden;
+    background:radial-gradient(circle at 85% 30%,#c7ff4520,transparent 30%),linear-gradient(120deg,#102d1c,#06110b);
+}
+.team-hero h1{font:900 clamp(65px,10vw,110px)/.9 "Barlow Condensed";margin:18px 0}
+.team-hero h1 span{color:var(--lime)}
+.team-hero p{color:var(--muted);font-size:13px;line-height:1.8;max-width:550px}
+
+.team-layout{display:grid;grid-template-columns:340px 1fr;gap:30px;align-items:start}
+
+.add-panel{
+    position:sticky;top:105px;padding:25px;
+    background:linear-gradient(145deg,#173b29,#0a1d12);
+    border:1px solid #c7ff4540;border-radius:16px;
+    box-shadow:0 20px 50px #0005
+}
+.add-panel h2{font:900 35px "Barlow Condensed";margin-bottom:8px}
+.add-panel h2 span{color:var(--lime)}
+.add-panel>p{color:var(--muted);font-size:11px;line-height:1.8;margin-bottom:25px}
+
+.team-form-group{margin-bottom:17px}
+.team-form-group label{display:block;font-size:10px;font-weight:900;letter-spacing:1px;margin-bottom:9px}
+.team-form-group input{
+    width:100%;padding:14px;background:#06140c;
+    border:1px solid #ffffff20;border-radius:7px;
+    color:white;outline:none
+}
+.team-form-group input:focus{border-color:var(--lime);box-shadow:0 0 15px #c7ff4520}
+
+.team-submit{
+    width:100%;padding:15px;border:0;border-radius:7px;
+    background:var(--lime);color:#10200e;
+    font-weight:900;font-size:11px;cursor:pointer;transition:.3s
+}
+.team-submit:hover{transform:translateY(-4px);box-shadow:0 12px 25px #c7ff4530}
+
+.team-preview{
+    height:120px;width:120px;margin:0 auto 20px;
+    border-radius:50%;border:2px solid var(--lime);
+    background:#06140c;display:grid;place-items:center;
+    overflow:hidden;box-shadow:0 0 30px #c7ff4520
+}
+.team-preview img{width:100%;height:100%;object-fit:cover;display:none}
+.team-preview span{font-size:45px}
+
+.team-list-heading{
+    display:flex;justify-content:space-between;
+    align-items:center;gap:15px;margin-bottom:25px
+}
+.team-list-heading h2{font:900 42px "Barlow Condensed"}
+.team-list-heading h2 span{color:var(--lime)}
+.team-count{
+    background:#c7ff4518;color:var(--lime);
+    padding:9px 13px;border-radius:6px;
+    font-size:10px;font-weight:900
+}
+
+.team-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+
+.team-card{
+    position:relative;overflow:hidden;text-align:center;
+    padding:30px 18px;background:linear-gradient(145deg,#173b29,#091b11);
+    border:1px solid #ffffff12;border-radius:15px;
+    transition:.35s;box-shadow:0 15px 35px #0003
+}
+.team-card:before{
+    content:"";position:absolute;top:-70px;right:-70px;
+    width:150px;height:150px;background:#c7ff4512;
+    border-radius:50%;filter:blur(10px)
+}
+.team-card:hover{
+    transform:translateY(-8px) rotateX(2deg);
+    border-color:var(--lime);box-shadow:0 25px 45px #0007
+}
+
+.team-logo{
+    position:relative;width:105px;height:105px;
+    margin:0 auto 20px;border-radius:50%;
+    background:linear-gradient(145deg,#254d34,#08170e);
+    border:2px solid #c7ff4570;display:grid;
+    place-items:center;overflow:hidden;
+    box-shadow:0 12px 30px #0008,0 0 25px #c7ff4515
+}
+.team-logo img{width:100%;height:100%;object-fit:cover}
+.team-logo span{font-size:42px}
+
+.team-card h3{
+    font:900 28px "Barlow Condensed";
+    margin-bottom:9px;overflow-wrap:anywhere
+}
+.team-card p{color:var(--muted);font-size:11px}
+.team-card .team-season{
+    display:inline-block;color:var(--lime);
+    font-size:9px;font-weight:900;
+    letter-spacing:2px;margin-top:15px
+}
+
+.team-remove-form{margin-top:20px}
+.team-remove-btn{
+    width:100%;padding:12px;
+    border:1px solid #ff555550;border-radius:7px;
+    background:#ff333315;color:#ff7777;
+    font-size:10px;font-weight:900;
+    letter-spacing:1px;cursor:pointer;transition:.3s
+}
+.team-remove-btn:hover{
+    background:#e32636;color:white;
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px #e3263640
+}
+
+.team-empty{
+    grid-column:1/-1;text-align:center;
+    padding:55px 20px;background:#10251a;
+    border:1px dashed #ffffff30;border-radius:13px;
+    color:var(--muted);line-height:2
+}
+
+@media(max-width:900px){
+    .team-layout{grid-template-columns:1fr}
+    .add-panel{position:relative;top:0}
+    .team-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:520px){
+    .team-grid{grid-template-columns:1fr}
+    .team-hero{padding:55px 0}
+    .team-list-heading h2{font-size:32px}
+}
+</style>
+
+<section class="team-hero">
+    <div class="container">
+        <div class="eyebrow">THE WARRIORS OF KENDRAPARA</div>
+        <h1>TOURNAMENT<br><span>TEAMS.</span></h1>
+        <p>Every team has a story. Every player has a dream. Discover the teams competing for the PPGP CUP Season 05 championship.</p>
+    </div>
+</section>
+
+<section class="section">
+<div class="container">
+
+    <div class="team-layout">
+
+        <!-- ADD TEAM -->
+
+        <aside class="add-panel">
+
+            <div class="eyebrow">TEAM REGISTRATION</div>
+            <h2>ADD NEW <span>TEAM.</span></h2>
+            <p>Add your tournament team to the official PPGP CUP directory.</p>
+
+            <div class="team-preview">
+                <span id="previewIcon">🏏</span>
+                <img id="previewImage" alt="Team preview">
+            </div>
+
+            <form action="/teams" method="POST">
+
+                <div class="team-form-group">
+                    <label>TEAM NAME *</label>
+                    <input type="text" name="name" placeholder="Enter team name" maxlength="80" required>
+                </div>
+
+                <div class="team-form-group">
+                    <label>TEAM IMAGE URL (OPTIONAL)</label>
+                    <input type="url" name="logo" id="teamLogo" placeholder="https://example.com/logo.png">
+                </div>
+
+                <div class="team-form-group">
+                    <label>TEAM CAPTAIN (OPTIONAL)</label>
+                    <input type="text" name="captain" placeholder="Enter captain name">
+                </div>
+
+                <button type="submit" class="team-submit">
+                    + ADD TEAM TO TOURNAMENT
+                </button>
+
+            </form>
+
+            <p style="margin:17px 0 0;font-size:9px;text-align:center">
+                PPGP CUP · KENDRAPARA · SEASON 05
+            </p>
+
+        </aside>
+
+        <!-- TEAM DIRECTORY -->
+
+        <div>
+
+            <div class="team-list-heading">
+                <div>
+                    <div class="eyebrow">OFFICIAL DIRECTORY</div>
+                    <h2>ALL <span>TEAMS.</span></h2>
+                </div>
+
+                <div class="team-count">
+                    <%= teamList.length %> TEAMS
+                </div>
+            </div>
+
+            <div class="team-grid">
+
+                <% if(teamList.length > 0){ %>
+
+                    <% teamList.forEach((team)=>{ %>
+
+                        <article class="team-card">
+
+                            <div class="team-logo">
+
+                                <% if(team.logo){ %>
+                                    <img
+                                        src="<%= team.logo %>"
+                                        alt="<%= team.name || team.teamName || 'Team' %>"
+                                        onerror="this.style.display='none';this.nextElementSibling.style.display='block'"
+                                    >
+                                    <span style="display:none">🏏</span>
+                                <% }else{ %>
+                                    <span>🏏</span>
+                                <% } %>
+
+                            </div>
+
+                            <h3><%= team.name || team.teamName || "Tournament Team" %></h3>
+
+                            <p>CAPTAIN: <%= team.captain || "To be announced" %></p>
+
+                            <div class="team-season">
+                                PPGP CUP · SEASON 05
+                            </div>
+
+                            <!-- REMOVE TEAM -->
+
+                            <form
+                                action="/teams/<%= team._id %>/delete"
+                                method="POST"
+                                class="team-remove-form"
+                                onsubmit="return confirm('Are you sure you want to permanently remove this team?')"
+                            >
+                                <button type="submit" class="team-remove-btn">
+                                    ✕ REMOVE TEAM
+                                </button>
+                            </form>
+
+                        </article>
+
+                    <% }) %>
+
+                <% }else{ %>
+
+                    <div class="team-empty">
+                        <div style="font-size:45px">🏆</div>
+                        <h3 style="font:900 30px 'Barlow Condensed';color:white">
+                            NO TEAMS YET
+                        </h3>
+                        Register your first team using the form.
+                        <br>New teams will automatically appear here.
+                    </div>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<script>
+const logoInput = document.getElementById("teamLogo");
+const previewImage = document.getElementById("previewImage");
+const previewIcon = document.getElementById("previewIcon");
+
+if(logoInput){
+    logoInput.addEventListener("input", function(){
+
+        const url = this.value.trim();
+
+        if(!url){
+            previewImage.style.display = "none";
+            previewIcon.style.display = "block";
+            return;
+        }
+
+        previewImage.onload = () => {
+            previewImage.style.display = "block";
+            previewIcon.style.display = "none";
+        };
+
+        previewImage.onerror = () => {
+            previewImage.style.display = "none";
+            previewIcon.style.display = "block";
+        };
+
+        previewImage.src = url;
+    });
+}
+</script>
+
+<%- include("partials/footer") %>
